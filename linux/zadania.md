@@ -29,7 +29,8 @@ Poprosil was o przygotowanie serwera na bazie Ubuntu ktory po starcie uruchomi M
 
 1. Uruchom server minecrafta z uzytkownika minecraft aby sprawdzic czy dziala.
 
-	- `java -Xms1G -Xmx3G  -jar server.jar nogui`
+	- `java -Xms1024M -Xmx1024M  -jar server.jar nogui`
+	- `java -Xms512M -Xmx512M  -jar server.jar nogui`
 
 1. Popraw plik `eula.txt`
 

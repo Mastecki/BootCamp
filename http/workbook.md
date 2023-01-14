@@ -11,8 +11,8 @@
 ### Instalacja
 Zainstaluj Wireshark ze [strony producenta](https://www.wireshark.org/download.html)
 
-https://en.wikiversity.org/wiki/Wireshark/Install
-https://www.wireshark.org/docs/wsug_html_chunked/index.html
+https://en.wikiversity.org/wiki/Wireshark/Install   
+https://www.wireshark.org/docs/wsug_html_chunked/index.html   
 
 ### DNS
 W razie problemów z działanie protokołu HTTP w pierwszej kolejności warto sprawdzić czy klient jest w stanie rozwiązać adres IP serwera
@@ -121,8 +121,8 @@ Dużo łatwiej operować na danych w Burpie porównując nawigowanie w Wireshark
 4. Wejdź na stronę **http**://wp.pl. Analizując jedynie odpowiedzi w domenie (www).wp.pl postaraj się określić w jaki sposób protokół zmienił się z HTTP na HTTPS
 2. Porównaj DevTools w innych przeglądarach
 
-https://developer.chrome.com/docs/devtools/
-https://firefox-source-docs.mozilla.org/devtools-user/
+https://developer.chrome.com/docs/devtools/   
+https://firefox-source-docs.mozilla.org/devtools-user/   
 
 ## Web Serwer
 
