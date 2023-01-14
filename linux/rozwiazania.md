@@ -4,7 +4,6 @@
 
 1.
 
-<<<<<<< HEAD
     cat /etc/passwd | sort | awk -F: '{print($1" - "$6)}'
 
 2.
@@ -78,20 +77,3 @@
     netstat -tulpn
 
 Powinien byc widoczny proces java sluchajacy na porcie 25565
-=======
-	cat /etc/passwd | awk -F: '{print($1" - "$6)}'
-
-2.
-
-	du -sh * | sort -h | tail -n5
-	
-3.
-
-	cat SpisMiejscowosci.txt | grep -c ^W
-	grep -c ^W SpisMiejscowosci.txt
-	
-4.
-
-	grep -cw Zimno SpisMiejscowosci.txt
-	cat SpisMiejscowosci.txt | grep -w Zimno | wc -l
->>>>>>> b65e118149912898ad0746b24c20b2b376800983
