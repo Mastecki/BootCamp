@@ -41,12 +41,9 @@ sudo useradd -m -d /opt/minecraft -s /bin/bash minecraft
 
 1. Uruchom server minecrafta z uzytkownika minecraft aby sprawdzic czy dziala.
 
-<<<<<<< HEAD
 	- `java -Xms1G -Xmx1G  -jar server.jar nogui`
-=======
 	- `java -Xms1024M -Xmx1024M  -jar server.jar nogui`
 	- `java -Xms512M -Xmx512M  -jar server.jar nogui`
->>>>>>> origin/main
 
 1. Popraw plik `eula.txt`
 
