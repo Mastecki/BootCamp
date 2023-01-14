@@ -6,6 +6,8 @@
 
 1. Należy wyświetlić wszystkie wpisy z pliku `/etc/passwd` w formacie: `nazwa_użytkownika - katalog_domowy`, posortowane alfabetycznie po nazwie użytkownika
 
+cut -d : -f 1,6 /etc/passwd
+
 1. Należy wyświetlić 5 najwiekszych plików wraz z ich rozmiarem znajdujacych sie w katalogu `/usr/bin`
 
 1. Plik `SpisMiejscowosci.txt` zawiera miasta w Polsce na litere "Z", ale pojawily sie bledy i jest tam rowniez kilka miast na litere "W". Podaj ile jest takich miast
