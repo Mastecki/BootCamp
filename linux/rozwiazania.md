@@ -4,5 +4,5 @@
 
 1. 
 
-	cat /etc/passwd | sort | awk -F: '{print($1" - "$6)}'
+	cat /etc/passwd | awk -F: '{print($1" - "$6)}'
 
