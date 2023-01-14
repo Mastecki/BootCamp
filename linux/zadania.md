@@ -9,12 +9,19 @@
 cut -d : -f 1,6 /etc/passwd
 awk -F":" '{print $1 " - " $6}' /etc/passwd
 
-1. Należy wyświetlić 5 najwiekszych plików wraz z ich rozmiarem znajdujacych sie w katalogu `/usr/bin`
+2. Należy wyświetlić 5 najwiekszych plików wraz z ich rozmiarem znajdujacych sie w katalogu `/usr/bin`
+   
+du -sh /usr/bin/* | sort -n | tail -n5
 
-1. Plik `SpisMiejscowosci.txt` zawiera miasta w Polsce na litere "Z", ale pojawily sie bledy i jest tam rowniez kilka miast na litere "W". Podaj ile jest takich miast
+3. Plik `SpisMiejscowosci.txt` zawiera miasta w Polsce na litere "Z", ale pojawily sie bledy i jest tam rowniez kilka miast na litere "W". Podaj ile jest takich miast
 
-1. Plik `SpisMiejscowosci.txt` powininien zawierac unikalne nazwy miast na litere "Z", jednak wkradl sie blad i "Zimno" wystepuje kilka razy. Podaj ile?
+grep -c ^W SpisMiejscowosci.txt
+
+4. Plik `SpisMiejscowosci.txt` powininien zawierac unikalne nazwy miast na litere "Z", jednak wkradl sie blad i "Zimno" wystepuje kilka razy. Podaj ile?
    Liczba 20 nie jest poprawna :)
+
+cat SpisMiejscowosci.txt | grep -w Zimno | wc -l
+
 
 ## Zadanie 2
 
