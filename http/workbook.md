@@ -283,8 +283,9 @@ server {
 - `proxy_pass` - określa adres na jaki żądanie zostanie prekierowane
 - `proxy_set_header` - ustawia nagłówek do żądanie które zostanie przesłane do serwera docelowego
 
-3. Zrestartuj serwer `sudo sytemclt restart nginx`
-4. Sprawdź połączenie
+3. Włącz utworzonego site'a `sudo ln -s /etc/nginx/sites-available/reverse-proxy /etc/nginx/sites-enabled/`
+4. Zrestartuj serwer `sudo sytemclt restart nginx`
+5. Sprawdź połączenie
 ```
 curl localhost/training --header "Host: reverse-proxy"
 curl localhost/default --header "Host: reverse-proxy"
