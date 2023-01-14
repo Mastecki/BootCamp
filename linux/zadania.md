@@ -10,7 +10,7 @@ cut -d : -f 1,6 /etc/passwd
 awk -F":" '{print $1 " - " $6}' /etc/passwd
 
 2. Należy wyświetlić 5 najwiekszych plików wraz z ich rozmiarem znajdujacych sie w katalogu `/usr/bin`
-   
+
 du -sh /usr/bin/* | sort -n | tail -n5
 
 3. Plik `SpisMiejscowosci.txt` zawiera miasta w Polsce na litere "Z", ale pojawily sie bledy i jest tam rowniez kilka miast na litere "W". Podaj ile jest takich miast
@@ -32,6 +32,8 @@ Poprosil was o przygotowanie serwera na bazie Ubuntu ktory po starcie uruchomi M
 
 1. Stworz dedykowanego uzytkownika "minecraft" z katalogiem domowym w `/opt/minecraft` i shellem `/bin/bash`
 
+sudo useradd -m -d /opt/minecraft -s /bin/bash minecraft
+
 1. Zainstaluj dodatkowe oprogramownie - paczke `openjdk-17-jre-headless` oraz `net-tools`
 	- jezeli system nie znajdzie openjdk to dodaj repozytorium `sudo add-apt-repository ppa:openjdk-r/ppa`
 
@@ -39,7 +41,7 @@ Poprosil was o przygotowanie serwera na bazie Ubuntu ktory po starcie uruchomi M
 
 1. Uruchom server minecrafta z uzytkownika minecraft aby sprawdzic czy dziala.
 
-	- `java -Xms1G -Xmx3G  -jar server.jar nogui`
+	- `java -Xms1G -Xmx1G  -jar server.jar nogui`
 
 1. Popraw plik `eula.txt`
 
@@ -54,6 +56,7 @@ Dokumentacja:
 W sekcji instalacji powinien miec `WantedBy=multi-user.target`
 3. Uruchom serwis minecraft.service i sprawdz czy nasluchuje na porcie `25565`
 
-
-
-
+sudo netstat -na | grep LISTEN | head
+sudo systemctl enable/disable minecraft.service
+sudo systemctl start/stop minecraft.service
+sudo systemctl status minecraft.service
