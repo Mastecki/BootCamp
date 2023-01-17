@@ -62,6 +62,7 @@ sudo apt install nginx
 sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/reverse-proxy
 sudo vi /etc/nginx/sites-available/reverse-proxy
 ```
+```
 server {
     listen 80;
     listen [::]:80;
@@ -77,6 +78,7 @@ server {
         proxy_set_header Host training;
     }
 }
+```
 ```
 sudo ln -s /etc/nginx/sites-available/reverse-proxy /etc/nginx/sites-enabled/
 sudo sytemclt restart nginx
