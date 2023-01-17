@@ -24,5 +24,4 @@ Wdrożenie aplikacji node.js za nginx'em
 - Przygotuj skrypt wykonujący wdrożenie aplikacji
 - Skonfiguruj HTTPS
 - Skonfiguruj nadpisywanie błędów
-- Włącz uwierzytelnianie
 - Co jeszcze można by poprawić?
