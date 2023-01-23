@@ -30,8 +30,9 @@ git clone https://github.com/msl0/todos-fastify-sqlite.git app
 npm install
 node server.js
 ```
-6. Skonfiguruj aplikację jako usługę. Włącz uruchamianie przy starcie systemu. Sprawdź logi usługi
+6. Zamknij aplikację. Przełącz się z powrotem na konto administratora. Skonfiguruj aplikację jako usługę. Włącz uruchamianie przy starcie systemu. Sprawdź logi usługi
 ```
+exit
 sudo vi /etc/systemd/system/todo.service
 ```
 ```
