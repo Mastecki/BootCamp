@@ -5,6 +5,38 @@ Wspierasz zespół tworzący prostą aplikację w node.js. Twoim zadaniem jest s
 ## Cel
 Wdrożenie aplikacji node.js za nginx'em
 
+## Środowisko
+
+Vagrant to nakładka na VirtualBoxa (i inne hypervisory), pozwala na szybkie tworzenie maszyn wirtualnych i ich konfigurację. Możesz wykorzystać Vagrant w celu wykonania zadania, a po skończeniu usunąć całą maszynę wirtualną.
+
+**Vagrant wspiera następujące wersje VirtualBoxa: 4.0.x, 4.1.x, 4.2.x, 4.3.x, 5.0.x, 5.1.x, 5.2.x, 6.0.x, i 6.1.x**
+
+Tworzenie środowiska:
+1. Utwórz katalog w profilu użytkownika - Vagrant działa w kontekście projektu-folderu
+```
+mkdir ~/linux_http
+cd ~/linux_http
+```
+2. Utwórz maszynę Virtualną z Ubuntu
+```
+vagrant init ubuntu/focal64
+vagrant up
+```
+3. Podłącz się do maszyny wirtualnej
+```
+vagrant ssh
+```
+
+Jeśli chcesz wyłączyć maszynę wirtualną użyj komendy `vagrant halt` w katalogu projektu
+
+Po zakończeniu prac możesz usunąć maszynę wirtualną i katalog projektu
+```
+cd ~/linux_http
+vagrant destroy
+cd ..
+rm -rf linux_http
+```
+
 ## Zadanie
 
 1. Zaktualizuj pakiety na serwerze
