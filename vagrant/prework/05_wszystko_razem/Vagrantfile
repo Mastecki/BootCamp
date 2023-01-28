@@ -1,0 +1,139 @@
+# sekcja DEBUG, mozecie zignorowac caly kod wewnatrz
+module CustomVagrantDebug
+	# jesli jest zmienna srodowiskowa DEBUG
+	# niezaleznie od jej wartosci
+	# wlacz tryb debug
+	# w shellu zeby oddefiniowac zmienne srodowiskowe
+	# mozna zrobic unset NAZWA_ZMIENNEJ;
+	@@is_debug = ENV["DEBUG"]
+	attr_accessor :is_debug
+
+	if @@is_debug
+		require 'pp' # pretty print module
+	end
+
+	def self.debug_provider(provider)
+		if not @@is_debug
+			return
+		end
+		puts "[DEBUG] run config for PROVIDER:"
+		pp provider
+	end
+
+	# jesli jest tryb debug
+	# wymus finalizacje configu 1 boxa
+	# i go wypisz na stdout
+	def self.debug_sub_vm(vm)
+		if not @@is_debug
+			return
+		end
+		puts "[DEBUG] run config for SUB-VM:"
+		vm.finalize!()
+		pp vm
+	end
+
+	# jesli jest tryb debug
+	# zfinalizuj config
+	# wymusic finalizacje configu wszystkich boxow
+	# wypisz wszystko na stdout
+	# i zanim vagrant zacznie cokolwiek robic
+	# wywal program
+	def self.debug_config(config)
+		if not @@is_debug
+			return
+		end
+		puts "[DEBUG] run config for CONFIG:"
+		# ruby jest lazy evaluated przy block statements (pamietacie yield?)
+		# wiec zeby uzyskac finalny config, bez odpalania samego vagranta
+		# trzeba odpalic metode finalize z klasy Loader z modulu Vagrant::Config::V2
+		# Vagrant::Config::V2::Loader.finalize(config)
+		config.finalize()
+		pp config
+		puts "[DEBUG] defined vms dump:"
+		config.vm.instance_variable_get(:@__defined_vms).each do |vm_k, vm_v|
+			pp vm_k
+			vm_v.config_procs[0][1].call(config) # odpal kod w providerze
+			# inaczej nigdy config sub-vm nie zostanie zfinalizowany
+		end
+		puts "[DEBUG] abort"
+		abort("For debug purposes, just print to console but do not actually start vagrant actions")
+	end
+end
+# koniec sekcji DEBUG
+
+# wszystko pomiedzy dwoma EOM bedzie zapisane w zmiennej provision_script
+provision_script = <<~EOM
+	# tu juz nie ma ruby, zaczyna sie bash
+	# set sprawi ze od teraz:
+	# - kazda komenda bedzie wypisana na ekran (debug)
+	# - jesli ktoras komenda zwroci blad (return non-zero), to przerwij dzialanie skryptu
+	set -ex;
+	# sprawdz jaki mamy pelny hostname (FQDN)
+	hostname -f;
+	# zainstaluj:
+	# - docker (klient i serwer)
+	# - docker compose v2
+	# - jq ktory sluzy do interpretowania plikow json
+	# - yq ktory sluzy do interpretowania plikow yml yaml
+	apk add \
+		--update \
+		docker \
+		docker-cli-compose \
+		jq \
+		yq \
+	;
+	# dodaj uzytkownika vagrant do grupy docker (zeby nie trzeba bylo sudo)
+	addgroup vagrant docker;
+	# serwis docker ma sie odpalac przy starcie systemu
+	rc-update add docker boot;
+	# wystartuj serwis docker teraz
+	rc-service docker start;
+	# poczekaj az serwis docker wystartuje, ale jesli bedzie to trwac ponad 60s to wywal sie z bledem
+	timeout 60 sh -c 'until docker ps 1>/dev/null 2>/dev/null; do echo "Waiting for docker to start"; sleep 1; done';
+	# wylacz opcje seta wlaczone na poczatku
+	set +ex;
+	echo koniec;
+EOM
+# i znowu ruby
+
+# stworz nowy config dla vagranta
+Vagrant.configure(
+	"2", # korzystajac z wersji "2" schemy,
+	# czemu 2? powod: https://developer.hashicorp.com/vagrant/docs/vagrantfile/version
+) do |config|
+	# wszystkie opcje dotyczace config.vm sa tu:
+	# https://developer.hashicorp.com/vagrant/docs/vagrantfile/machine_settings
+	config.vm.box = "generic/alpine317"
+	config.vm.define(
+		"box-1", # jaka bedzie nazwa boxa
+		primary: true, # okresla ktory box jest domyslny, np `vagrant ssh` do ktorego boxa nas podlaczy
+	) do |node|
+		node.vm.hostname = "box-1.vm" # wybieramy jakie chcemy
+		# folder dzielony miedzy hostem a guestem
+		node.vm.synced_folder(
+			"./sync", # sciezka na hoscie - musi istniec, inaczej vagrant sie wywali!
+			"/sync", # sciezka na guescie, jesli nie istnieje zostanie stworzona
+		)
+		node.vm.provider(
+			"virtualbox", # jakiego providera chcemy uzyc?
+		) do |provider|
+			# provider.name domyslnie to "#{nazwa_folderu_z_Vagrantfile}_#{1szy_arg_z_define_powyzej}"
+			# nie ma potrzeby ustawiac
+
+			# alpine nie wymaga duzo zasobow, 1 vCPU i 128MB RAM wystarczy
+			provider.cpus = 1 # ile vCPU
+			provider.memory = 128 # w MB
+			# najpierw stworz bazowe VM / template
+			# przydatne gdy chcemy postawic wiecej niz 1 boxa
+			provider.linked_clone = true 
+			CustomVagrantDebug.debug_provider(provider)
+		end
+		node.vm.provision(
+			"shell", # jakiego provisionera chcemy tutaj uzyc
+			privileged: true, # jako root
+			inline: provision_script, # zamiast tego mozna file: /jakas/sciezka/skrypt.sh
+		)
+		CustomVagrantDebug.debug_sub_vm(node)
+	end
+	CustomVagrantDebug.debug_config(config)
+end
