@@ -68,15 +68,10 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name reverse-proxy;
+    server_name todo;
 
-    location /default {
-        proxy_pass http://localhost/;
-    }
-
-    location /training {
-        proxy_pass http://localhost/;
-        proxy_set_header Host training;
+    location / {
+        proxy_pass http://localhost:3000;
     }
 }
 ```
