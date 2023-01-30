@@ -13,7 +13,7 @@ Polecam szczególnie 1.
 Skrypty te są baaardzo krótkim crash-coursem z komentarzem. Omawiam tylko bare minimum które jest potrzebne do zrozumienia co się dzieje w Vagrantfile.
 W [ostatnim skrypcie](./04_mock_vagrant.rb) możecie zobaczyć namiastkę jak działa Vagrantfile: co jest funkcją, jak działa logika ustawiania tego wszystkiego, etc.
 
-Przyjąłem konwencję, że wszystkie komentarze, nazwy zmiennych, klas, oraz funckji które sami definiujemy, są po Polsku. Jest to zrobione po to, żebyście jasno widzieli gdzie kończy się sam Ruby, a gdzie zaczyna się nasz przykładowy kod.
+Przyjąłem konwencję, że wszystkie komentarze, nazwy zmiennych, klas, oraz funkcji które sami definiujemy, są po Polsku. Jest to zrobione po to, żebyście jasno widzieli gdzie kończy się sam Ruby, a gdzie zaczyna się nasz przykładowy kod.
 
 ## Skrypty
 | Skrypt | Cel | 
