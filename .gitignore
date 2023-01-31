@@ -1,3 +1,4 @@
 .DS_Store
 linux/mykey
 linux/mykey.pub
+.vagrant

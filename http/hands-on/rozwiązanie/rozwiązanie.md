@@ -30,8 +30,9 @@ git clone https://github.com/msl0/todos-fastify-sqlite.git app
 npm install
 node server.js
 ```
-6. Skonfiguruj aplikację jako usługę. Włącz uruchamianie przy starcie systemu. Sprawdź logi usługi
+6. Zamknij aplikację. Przełącz się z powrotem na konto administratora. Skonfiguruj aplikację jako usługę. Włącz uruchamianie przy starcie systemu. Sprawdź logi usługi
 ```
+exit
 sudo vi /etc/systemd/system/todo.service
 ```
 ```
@@ -67,15 +68,10 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name reverse-proxy;
+    server_name todo;
 
-    location /default {
-        proxy_pass http://localhost/;
-    }
-
-    location /training {
-        proxy_pass http://localhost/;
-        proxy_set_header Host training;
+    location / {
+        proxy_pass http://localhost:3000;
     }
 }
 ```
