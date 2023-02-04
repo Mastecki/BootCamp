@@ -8,7 +8,7 @@
 |--|---------------|--------------|
 | Uaktualnij bazę pakietów | `apt update`  | `apk update` |
 | Zainstaluj pakiet | `apt install ${pkg_name}` | `apk add ${pkg_name}`    |
-| Dodaj istniejącego użytkownika do istniejącej grupy | `usermod -aG ${group} ${user}` | `addgroup ${group} ${user}` |
+| Dodaj istniejącego użytkownika do istniejącej grupy | `usermod -aG ${group} ${user}` | `addgroup ${user} ${group}` |
 | Uruchom serwis | `systemctl start docker.service`| `rc-service docker start`|
 | Dodaj serwis do "autostartu" | `systemctl enable docker.service` (warunki startu zależą od pliku configuracyjnego serwisu) | `rc-update add docker boot` (`boot` to grupa, która definiuje warunki startu) |
 

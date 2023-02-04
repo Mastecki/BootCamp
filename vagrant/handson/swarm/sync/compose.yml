@@ -1,0 +1,17 @@
+---
+# the above is customarily added so that when yamls are combined
+# there is separation still (mostly related to k8s)
+version: "3.8" # since recently this is no longer used, used more for human information
+
+# in yaml, indentation is important (same as in python)
+services:
+    hello-world: # name of service, as we define it
+        image: jwilder/whoami # image that just returns hostname of container (not of machine running docker)
+        ports: # these ports are for entire service, not individual containers
+            - "8080:8000"
+        # "deploy" key is swarm specific, compose will ignore it
+        deploy:
+            mode: global
+            placement:
+                # so don't run on managers
+                constraints: [node.role == worker]

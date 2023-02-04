@@ -5,4 +5,4 @@
 | 10.01.2023 | Organizacyjna | Maciej Malek | [pdf](./prezentacje/DOR7-Prezentacja_organizacyjna.pdf) | | |
 | 14.01.2023 | Podstawy Linuxa | Maciej Malek | [pdf](./prezentacje/DOR7-Podstawy_Linuxa.pdf) | [hands-on](./linux/zadania.md) | [rozwiazania](./linux/rozwiazania.md) |
 | 14.01.2023<br>17.01.2023 | Protokol HTTP | Marcin Słowikowski | [pdf](./prezentacje/DOR7-Protokol_HTTP.pdf) | [hands-on](./http/workbook.md) | [rozwiazania](./http/hands-on/rozwiązanie/) |
-| 21.01.2023 | Wstęp do wirtualizacji | Michał Jerzy Wierzbicki | [pdf](./prezentacje/DOR7-Wstep_do_wirtualizacji.pdf) | [prework do hands-on](./vagrant/prework/readme.md) [hands-on](./under_construction.svg) |
+| 21.01.2023 | Wstęp do wirtualizacji | Michał Jerzy Wierzbicki | [pdf](./prezentacje/DOR7-Wstep_do_wirtualizacji.pdf) | [prework do hands-on](./vagrant/prework/readme.md) [hands-on](./vagrant/handson/DOR7-Wirtualizacja_handson.pdf) |
