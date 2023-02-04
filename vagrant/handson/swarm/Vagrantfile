@@ -1,0 +1,185 @@
+module CustomVagrantDebug
+	# jesli jest zmienna srodowiskowa DEBUG
+	# niezaleznie od jej wartosci
+	# wlacz tryb debug
+	# w shellu zeby oddefiniowac zmienne srodowiskowe
+	# mozna zrobic unset NAZWA_ZMIENNEJ;
+	@@is_debug = ENV["DEBUG"]
+	attr_accessor :is_debug
+
+	if @@is_debug
+		require 'pp' # pretty print module
+	end
+
+	def self.debug_provider(provider)
+		if not @@is_debug
+			return
+		end
+		puts("[DEBUG] run config for PROVIDER:")
+		pp provider
+	end
+
+	# jesli jest tryb debug
+	# wymus finalizacje configu 1 boxa
+	# i go wypisz na stdout
+	def self.debug_sub_vm(vm)
+		if not @@is_debug
+			return
+		end
+		puts("[DEBUG] run config for SUB-VM:")
+		vm.finalize!()
+		pp vm
+	end
+
+	# jesli jest tryb debug
+	# zfinalizuj config
+	# wymusic finalizacje configu wszystkich boxow
+	# wypisz wszystko na stdout
+	# i zanim vagrant zacznie cokolwiek robic
+	# wywal program
+	def self.debug_config(config)
+		if not @@is_debug
+			return
+		end
+		puts("[DEBUG] run config for CONFIG:")
+		# ruby jest lazy evaluated przy block statements (pamietacie yield?)
+		# wiec zeby uzyskac finalny config, bez odpalania samego vagranta
+		# trzeba odpalic metode finalize z klasy Loader z modulu Vagrant::Config::V2
+		# Vagrant::Config::V2::Loader.finalize(config)
+		config.finalize()
+		pp config
+		puts("[DEBUG] defined vms dump:")
+		config.vm.instance_variable_get(:@__defined_vms).each do |vm_k, vm_v|
+			pp vm_k
+			vm_v.config_procs[0][1].call(config) # odpal kod w providerze
+			# inaczej nigdy config sub-vm nie zostanie zfinalizowany
+		end
+		puts("[DEBUG] abort")
+		abort("For debug purposes, just print to console but do not actually start vagrant actions")
+	end
+end
+
+subnet="10.100.199."
+manager_subnet="#{subnet}1"
+manager_main_address="#{manager_subnet}00"
+worker_subnet="#{subnet}2"
+manager_port=2137
+# $ is a global variable
+# nonglobal variable could not be used in provider_virtualbox_common
+$show_gui = false
+
+count_nodes_worker = 2
+if ENV['COUNT_NODES_WORKER']
+	count_nodes_worker = (ENV['COUNT_NODES_WORKER']).to_i
+	puts("Number of drones overriden to #{count_nodes_worker} via ENV")
+end
+
+provision_common = <<~EOM
+	set -ex;
+	sudo apk add \
+		--update \
+		docker \
+		docker-cli-compose \
+		jq \
+		yq \
+	;
+	addgroup vagrant docker;
+	sudo rc-update add docker boot;
+	sudo rc-service docker start;
+	timeout 60 sh -c 'until docker ps 1>/dev/null 2>/dev/null; do echo "Waiting for docker to start"; sleep 1; done'
+EOM
+
+provision_manager = <<~EOM
+#{provision_common}
+	docker swarm init \
+		--listen-addr    "#{manager_main_address}:#{manager_port}" \
+		--advertise-addr "#{manager_main_address}:#{manager_port}" \
+	|| true; # don't error out if already part of swarm
+	docker swarm join-token \
+		--quiet worker \
+	> /sync/worker_token \
+	;
+	set +ex;
+EOM
+
+provision_worker = <<~EOM
+#{provision_common}
+	docker swarm join \
+		--token "$(cat /sync/worker_token)" \
+		"#{manager_main_address}:#{manager_port}" \
+	|| true; # don't error out if already part of swarm
+	set +xe;
+EOM
+
+def provider_virtualbox_common(provider)
+	provider.linked_clone = true
+	provider.check_guest_additions = false
+	provider.gui = $show_gui # for debug
+end
+
+Vagrant.configure("2") do |config|
+	config.vm.define(
+		"hivequeen",
+		primary: true,
+	 ) do |node|
+		node.vm.box = "generic/alpine317"
+		node.vm.network(
+			"private_network",
+			ip: manager_main_address,
+		)
+		node.vm.network(
+			"forwarded_port",
+			guest: 8080,
+			host: 8080,
+		)
+		node.vm.hostname = "hivequeen"
+		node.vm.synced_folder(
+			"./sync",
+			"/sync",
+		)
+		node.vm.provider(
+			"virtualbox",
+		) do |provider|
+			provider.cpus = 1
+			provider.memory = 256 # min 256
+			provider_virtualbox_common(provider)
+			CustomVagrantDebug.debug_provider(provider)
+		end
+		node.vm.provision(
+			"shell",
+			privileged: true,
+			inline: provision_manager,
+		)
+		CustomVagrantDebug.debug_sub_vm(node)
+	end
+
+	(1..count_nodes_worker).each do |i|
+		config.vm.define("drone#{i}") do |node|
+			node.vm.box = "generic/alpine317"
+			node.vm.network(
+				"private_network",
+				ip: "#{worker_subnet}0#{i}",
+			)
+			node.vm.hostname = "drone#{i}"
+			node.vm.synced_folder(
+				"./sync",
+				"/sync",
+			)
+			node.vm.provider(
+				"virtualbox",
+			 ) do |provider|
+				provider.cpus = 2
+				provider.memory = 256 # min 256 + workload
+				provider_virtualbox_common(provider)
+				CustomVagrantDebug.debug_provider(provider)
+			end
+			node.vm.provision(
+				"shell",
+				privileged: true,
+				inline: provision_worker,
+			)
+			CustomVagrantDebug.debug_sub_vm(node)
+		end
+	end
+	CustomVagrantDebug.debug_config(config)
+end
