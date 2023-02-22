@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.4
+
 ARG gobuildref=1.20.1-bullseye
 ARG debianref=bullseye-20230208-slim
 
@@ -7,6 +9,23 @@ COPY . /app
 WORKDIR  /app
 
 RUN go build dispatcher.go
+
+FROM build as dev-envs
+
+RUN <<EOF
+apt update
+apt install -y git
+EOF
+
+RUN <<EOF
+addgroup --system docker
+adduser --system --shell /bin/bash --ingroup docker vscode
+EOF
+
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
+
+CMD ["go", "run", "dispatcher.go"]
 
 FROM debian:$debianref AS runner
 
