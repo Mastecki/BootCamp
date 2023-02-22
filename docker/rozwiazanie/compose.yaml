@@ -3,11 +3,16 @@ services:
     build: ./web
     ports:
       - 8081:80
+    networks:
+      - private-backend
+      - public-frontend
 
   words:
     build: ./words
     ports:
       - 8080:8080
+    networks:
+      - private-backend
 
   db:
     image: postgres:15.2
@@ -22,6 +27,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - private-backend
 
   db-schema:
     image: postgres:15.2
@@ -33,6 +40,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - private-backend
 
   proxy:
     image: nginx:1.23.3
@@ -40,6 +49,13 @@ services:
       - ./proxy/proxy.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80
+    networks:
+      - public-frontend
 
 volumes:
   postgres:
+
+
+networks:
+  private-backend:
+  public-frontend:
