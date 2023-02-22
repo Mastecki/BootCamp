@@ -1,11 +1,14 @@
-FROM golang:latest AS build
+ARG gobuildref=1.20.1-bullseye
+ARG debianref=bullseye-20230208-slim
+
+FROM golang:$gobuildref AS build
 
 COPY . /app
 WORKDIR  /app
 
 RUN go build dispatcher.go
 
-FROM debian:latest AS runner
+FROM debian:$debianref AS runner
 
 COPY --from=build /app/dispatcher /app/
 COPY --from=build /app/static /app/static
