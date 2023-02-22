@@ -23,7 +23,7 @@ public class Main {
 
     private static String randomWord(String table) {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://db:5432/postgres", "postgres",
-                "")) {
+                "my_own_password")) {
             try (Statement statement = connection.createStatement()) {
                 try (ResultSet set = statement
                         .executeQuery("SELECT word FROM " + table + " ORDER BY random() LIMIT 1")) {
@@ -39,21 +39,15 @@ public class Main {
         throw new NoSuchElementException(table);
     }
 
-    
-    
-
     priva
 
-        String response = "{\"word\":\"" + word.get() + "\"}";
-            byte[] bytes = response.getBytes(Charsets.UTF_8);
+        String response="{\"word\":\""+word.get()+"\"}";
+    byte[] bytes = response.getBytes(Charsets.UTF_8);
 
-            System.out.println(response);
-            t.getResponseHeaders().add("content-type", "application/json; charset=utf-8");
-            t.sendResponseHeaders(200, bytes.length);
+    System.out.println(response);t.getResponseHeaders().add("content-type","application/json; charset=utf-8");t.sendResponseHeaders(200,bytes.length);
 
-            try (OutputStream os = t.getResponseBody()) {
-                os.write(bytes);
-            }
-        };
+    try(OutputStream os = t.getResponseBody())
+    {
+        os.write(bytes);
     }
-}
+};}}
