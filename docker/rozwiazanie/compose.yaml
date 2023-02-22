@@ -8,3 +8,31 @@ services:
     build: ./words
     ports:
       - 8080:8080
+
+  db:
+    image: postgres:15.2
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: my_own_password
+    volumes:
+      - "postgres:/var/lib/postgresql/data"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db-schema:
+    image: postgres:15.2
+    environment:
+      PGPASSWORD: my_own_password
+    command: psql -U postgres -d postgres -a -f words.sql -h db
+    volumes:
+      - ./db/words.sql:/words.sql
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres:
