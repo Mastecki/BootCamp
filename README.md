@@ -8,3 +8,4 @@
 | 21.01.2023 | Wstęp do wirtualizacji | Michał Jerzy Wierzbicki | [pdf](./prezentacje/DOR7-Wstep_do_wirtualizacji.pdf) | [prework do hands-on](./vagrant/prework/readme.md) [hands-on](./vagrant/handson/DOR7-Wirtualizacja_handson.pdf) |
 | 04.02.2023<br>07.02.2023 | Konteneryzacja aplikacji w środowisku Docker | Tomasz Krzyżanowski | [pdf](./prezentacje/DOR7-Konteneryzacja-aplikacji-w-środowisku-Docker.pdf) |  |
 | 11.02.2023 | Zarządzanie systemem skonteneryzowanym z wykorzystaniem Docker Compose | Tomasz Krzyżanowski | [pdf](./prezentacje/DOR7-Zarządzanie-systemem-skonteneryzowanym-z-wykorzystaniem-Docker-Compose.pdf) | [hands-on](./docker/zadania.md) | [PR - commity zachowują chronologie poleceń](https://github.com/infoshareacademy/dor7-materialy/pull/7) <br> --- <br>[rozwiązania - kod](./docker/rozwiazanie)
+| 24.02.2023 | Architektura i narzędzia w systemach mikroserwisowych | Oleksii Tsyganov | [pdf](./prezentacje/DOR7-Architektura_mikroserwisowa.pdf) | | 
