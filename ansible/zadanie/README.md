@@ -11,7 +11,7 @@ Stwórz playbook który przygotuje środowisko (web serwer) a następnie wdroży
 - przywrócenie pliku konfiguracyjnego w przypadku jeśli walidacja się nie powiedzie
 - usunięcie pliku kopii konfiguracji
 - restart Nginx'a jeśli zostały dokonane zmiany pliku konfiguracyjnego
-- playbook powinien status changed jedynie przy realnej zmianie środowiska
+- playbook powinien zwracać status changed jedynie przy realnej zmianie środowiska
 
 
 Po wykonaniu zastanów się nad tym jak dostosujesz playbook by tworzyć dwie strony jednocześnie przy czym druga miałaby być dostępna jako inny host wirtualny (np. todo-prod) oraz musiałyby wyświetlać nazwę wirtualnego hosta? Zakładamy że chcemy wykorzystać istniejące pliki bez dodawania nowych oraz starając się nie duplikować tasków
