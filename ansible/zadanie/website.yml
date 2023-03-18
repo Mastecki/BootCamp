@@ -1,0 +1,79 @@
+---
+- name: Configure and deploy website
+  hosts: localhost
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+      become: true
+      tags: install
+
+    - name: Enable autostart of Nginx service
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: started
+      become: true
+
+    - name: Create website directory
+      ansible.builtin.file:
+        path: "/var/www/todo/html"
+        state: directory
+        mode: '0755'
+        owner: vagrant
+        group: vagrant
+      become: true
+
+    - name: Copy website file
+      ansible.builtin.copy:
+        src: ./index.html
+        dest: "/var/www/todo/html/index.html"
+
+    - name: Copy config file
+      ansible.builtin.template:
+        src: ./web_config.j2
+        dest: "/etc/nginx/sites-available/todo"
+        backup: true
+      notify: Restart Nginx
+      register: web_config
+      become: true
+
+    - name: Enable site
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/todo"
+        dest: "/etc/nginx/sites-enabled/todo"
+        state: link
+      notify: Restart Nginx
+      become: true
+
+    - block:
+      - name: Validate config
+        shell: nginx -t
+        become: true
+        register: validation
+        changed_when: validation.rc == 1
+
+      rescue:
+        - name: Restore config
+          copy:
+            src: "{{ web_config.backup_file }}"
+            dest: /etc/nginx/sites-available/todo
+            remote_src: true
+          become: true
+
+      always:
+        - name: Clean up backup file
+          file:
+            path: "{{ web_config.backup_file }}"
+            state: absent
+          become: true
+          when: web_config.backup_file is defined
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+      become: true

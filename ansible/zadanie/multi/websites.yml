@@ -1,0 +1,97 @@
+---
+- name: Configure and deploy website
+  hosts: localhost
+  vars_files: vars.yml
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+      become: true
+      tags: install
+
+    - name: Enable autostart of Nginx service
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: started
+      become: true
+
+    - name: Create website directory
+      ansible.builtin.file:
+        path: "/var/www/{{ item }}/html"
+        state: directory
+        mode: '0755'
+        owner: vagrant
+        group: vagrant
+      become: true
+      loop: "{{ app_names }}"
+
+    - name: Copy website file
+      ansible.builtin.template:
+        src: ./index.html
+        dest: "/var/www/{{ item }}/html/index.html"
+      loop: "{{ app_names }}"
+
+    - name: Copy config file
+      ansible.builtin.template:
+        src: ./web_config.j2
+        dest: "/etc/nginx/sites-available/{{ item }}"
+        backup: true
+      notify: Restart Nginx
+      register: web_config
+      become: true
+      loop: "{{ app_names }}"
+    # - debug:
+    #     var: web_config
+    # - debug:
+    #     msg: "{{ item.invocation }}"
+    #   loop: "{{ web_config.results }}"
+    #   loop_control:
+    #     label: "{{ item.item }}"
+    - name: Enable site
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ item }}"
+        dest: "/etc/nginx/sites-enabled/{{ item }}"
+        state: link
+      notify: Restart Nginx
+      become: true
+      loop: "{{ app_names }}"
+
+    - block:
+      - name: Validate config
+        shell: nginx -t
+        become: true
+        register: validation
+        changed_when: validation.rc == 1
+
+      rescue:
+        - name: Restore config
+          copy:
+            src: "{{ item.backup_file }}"
+            dest: "/etc/nginx/sites-available/{{ item.item }}"
+            remote_src: true
+          become: true
+          loop: "{{ web_config.results }}"
+          loop_control:
+            label: "{{ item.item }}"
+
+      always:
+        - name: Clean up backup file
+          file:
+            path: "{{ item.backup_file }}"
+            state: absent
+          become: true
+          loop: "{{ web_config.results }}"
+          loop_control:
+            label: "{{ item.item }}"
+          when: item.backup_file is defined
+
+
+  handlers:
+    - name: Restart Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+      become: true
