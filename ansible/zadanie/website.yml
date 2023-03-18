@@ -1,6 +1,6 @@
 ---
 - name: Configure and deploy website
-  hosts: localhost
+  hosts: all
   tasks:
     - name: Install Nginx
       ansible.builtin.apt:
@@ -22,8 +22,8 @@
         path: "/var/www/todo/html"
         state: directory
         mode: '0755'
-        owner: vagrant
-        group: vagrant
+        owner: ansible
+        group: ansible
       become: true
 
     - name: Copy website file
