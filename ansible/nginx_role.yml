@@ -1,0 +1,7 @@
+---
+- hosts: node1,node3
+  become: true
+  tasks:
+    - name: Install NGINX
+      ansible.builtin.include_role:
+        name: nginxinc.nginx_core.nginx

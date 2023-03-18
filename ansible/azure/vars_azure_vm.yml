@@ -1,0 +1,6 @@
+name_prefix: training
+location: westeurope
+ip_range: 10.0.0.0/24
+vm_list:
+  - vm1
+  - vm2

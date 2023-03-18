@@ -1,0 +1,23 @@
+---
+- name: Prepare environment
+  hosts: all
+  roles:
+    - role: 'common'
+
+- name: Deploy database
+  hosts: db
+  roles:
+    - role: 'db'
+  vars_files:
+    - vars.yml
+  
+- name: Deploy app
+  hosts: app
+  roles:
+    - role: 'app'
+      vars:
+        POSTGRES_SERVER: "{{ hostvars['db'].ansible_host }}"
+        docker_port: "{{ container_port_mapping }}"
+  vars_files:
+    - vars.yml
+        
