@@ -10,5 +10,5 @@
 | 11.02.2023 | Zarządzanie systemem skonteneryzowanym z wykorzystaniem Docker Compose | Tomasz Krzyżanowski | [pdf](./prezentacje/DOR7-Zarządzanie-systemem-skonteneryzowanym-z-wykorzystaniem-Docker-Compose.pdf) | [hands-on](./docker/zadania.md) | [PR - commity zachowują chronologie poleceń](https://github.com/infoshareacademy/dor7-materialy/pull/7) <br> --- <br>[rozwiązania - kod](./docker/rozwiazanie)
 | 24.02.2023 | Architektura i narzędzia w systemach mikroserwisowych | Oleksii Tsyganov | [pdf](./prezentacje/DOR7-Architektura_mikroserwisowa.pdf) | | 
 | 04.03.2023 | AWS Cloud | Maciej Małek |[pdf](./prezentacje/DOR7-AWS-1.pdf)|| 
-| 04.03.2023 | Automatyzacja z wykorzystaniem Ansible | Marcin Słownikowski |[pdf](./prezentacje/DOR7-Ansible.pdf)|| 
+| 04.03.2023 | Automatyzacja z wykorzystaniem Ansible | Marcin Słownikowski |[pdf](./prezentacje/DOR7-Ansible.pdf)|[hands-on](./ansible/Hands-on.md)|[hands-on rozwiązanie](./ansible/handson-rozwiązanie/)<br>[hands-on pliki z zajęć](./ansible/handson-zajęcia/)<br> 
 

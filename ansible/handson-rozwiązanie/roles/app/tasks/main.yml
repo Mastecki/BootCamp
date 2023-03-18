@@ -1,0 +1,28 @@
+- name: register "{{ docker_user }}" info
+  become: true
+  user:
+    name: "{{ docker_user }}"
+  check_mode: 'yes'
+  register: docker_user_info
+
+- name: Deploy application container
+  community.docker.docker_container:
+    name: mealie-app
+    image: "{{ image }}"
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ docker_port }}"
+    env:
+      TZ: "{{ TZ }}"
+      DB_ENGINE: postgres
+      POSTGRES_USER: "{{ POSTGRES_USER }}"
+      POSTGRES_PASSWORD: "{{ POSTGRES_PASSWORD }}"
+      POSTGRES_SERVER: "{{ POSTGRES_SERVER }}"
+      POSTGRES_PORT: "{{ POSTGRES_PORT }}"
+      POSTGRES_DB: "{{ POSTGRES_DB }}"
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/{{ docker_user_info.uid }}"
+    PATH: "{{ docker_user_info.home }}/bin:{{ ansible_env.PATH }}"
+    DOCKER_HOST: "unix:///run/user/{{ docker_user_info.uid }}/docker.sock"
+  no_log: true

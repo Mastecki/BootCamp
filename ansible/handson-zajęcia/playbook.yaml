@@ -1,0 +1,84 @@
+---
+- name: mealie
+  hosts: all
+  become: true
+
+  tasks: 
+    - name: install
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: yes
+    - name: install software
+      ansible.builtin.apt:
+        pkg:
+          - python3
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+          - git
+        state: latest
+    - name: gpg keys
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: 
+          - docker-ce
+          - docker-ce-cli 
+          - containerd.io 
+          - docker-buildx-plugin 
+          - docker-compose-plugin 
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+- name: db
+  hosts: db
+  become: true
+  tasks:
+    - name: Create default containers
+      community.docker.docker_container:
+        name: mealie_db
+        image: postgres:latest
+        state: started
+        volumes:
+          - "data:/var/lib/postgresql/data"
+        env:
+          POSTGRES_USER: db
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: mealie
+        ports: 
+          - "5432:5432"
+        restart_policy: always
+- name: app
+  hosts: app
+  become: true
+  tasks:
+    - name: Create default containers
+      community.docker.docker_container:
+        name: mealie_app
+        image: hkotel/mealie:latest
+        state: started
+        env:
+          POSTGRES_SERVER: "{{ hostvars['db'].ansible_host }}"
+          POSTGRES_USER: db
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: mealie
+          POSTGRES_PORT: "5432"
+          DB_ENGINE: postgres
+        ports: 
+          - "8080:80"
+        restart_policy: always

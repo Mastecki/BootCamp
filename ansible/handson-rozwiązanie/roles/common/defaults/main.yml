@@ -1,0 +1,8 @@
+docker_compose: true
+docker_username: "{{ ansible_user_id }}"
+packages:
+  - git
+  - python3
+  - python3-pip
+pip_packages:
+  - docker
