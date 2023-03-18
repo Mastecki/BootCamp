@@ -11,4 +11,4 @@
 | 24.02.2023 | Architektura i narzędzia w systemach mikroserwisowych | Oleksii Tsyganov | [pdf](./prezentacje/DOR7-Architektura_mikroserwisowa.pdf) | | 
 | 04.03.2023 | AWS Cloud | Maciej Małek |[pdf](./prezentacje/DOR7-AWS-1.pdf)|| 
 | 04.03.2023 | Automatyzacja z wykorzystaniem Ansible | Marcin Słownikowski |[pdf](./prezentacje/DOR7-Ansible.pdf)|[hands-on](./ansible/Hands-on.md)|[hands-on rozwiązanie](./ansible/handson-rozwiązanie/)<br>[hands-on pliki z zajęć](./ansible/handson-zajęcia/)<br> 
-
+| 18.03.2023 | IaC - Terraform | Maciej Małek |[pdf](./prezentacje/DOR7-Iac-Terraform.pdf)|| 
