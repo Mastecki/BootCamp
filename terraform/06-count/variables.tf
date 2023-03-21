@@ -22,5 +22,4 @@ variable "common_tags" {
 variable "enabled" {
   type        = bool
   description = "Set to true for resource to be created"
-  default     = false
 }
