@@ -1,4 +1,3 @@
 region = "eu-west-1"
-bucket = "0987654321-staging-dor5-tf-state"
-key = "dor5-maciej/terraform.state"
-profile = "infoshare"
+bucket = "120987654321-staging-dor7-tf-state"
+key = "dor7-maciej/terraform.tfstate"
