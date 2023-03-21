@@ -4,7 +4,6 @@ terraform {
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 provider "aws" {
-  profile = "infoshare"
   region  = "eu-west-1"
 }
 
