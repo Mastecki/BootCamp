@@ -1,5 +1,5 @@
 # Terraform lock file
-terraform.lock.hcl
+**/.terraform.lock.hcl
 
 # Include build.plan files to ignore the plan output of command: terraform plan -out=build.plan
 build.plan
