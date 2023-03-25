@@ -12,6 +12,11 @@ Przy pomocy moduly https://registry.terraform.io/modules/terraform-aws-modules/v
 - DNS hostname oraz DNS Support maja byc wlaczone
 - VPC mam miec tagi - min. to Terraform = true, Owner = "Imie", Project = DOR7
 
+- wygeneruj pare kluczy ssh (priv i pub) u siebie na komputerze
+- utworz klucz ssh w AWS przez resource - aws_key_pair
+- utworz serwer EC2 w publicznym subnecie - aws_instance
+ - Amazon Linux 2
+
 
 ## Requirements
 
