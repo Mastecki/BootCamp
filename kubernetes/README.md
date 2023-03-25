@@ -1,3 +1,4 @@
+```bash
 cd docker
 docker build --build-arg APP_VERSION=v1 -t isa/k8s:v1 .
 docker build --build-arg APP_VERSION=v2 -t isa/k8s:v2 .
@@ -74,3 +75,4 @@ kubectl rollout undo deployments/isa-k8s-wshop
 https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/
 
 https://k9scli.io/
+```
