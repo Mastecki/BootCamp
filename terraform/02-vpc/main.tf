@@ -3,7 +3,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name        = "DOR7-Maciej"
+    Name        = "DOR7-ArturL"
     terraform   = true
     github_repo = "git@github.com:infoshareacademy/dor7-materialy.git"
   }

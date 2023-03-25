@@ -3,6 +3,5 @@ terraform {
 }
 
 provider "aws" {
-  profile = "infoshare"
   region  = "eu-west-1"
 }
