@@ -221,6 +221,18 @@ Wycofanie przywraca wszystkie poprzednie ustawienia z poprzedniego stanu.
 kubectl rollout undo deployments/isa-k8s-wshop
 ```
 
+# Wystawienie ingress w minikube
+
+Instalacja/włączenie addonu ingress
+```bash
+minikube addons enable ingress
+```
+
+Uruchomienie tunelu
+```bash
+minikube tunnel
+```
+
 # Przydatne linki
 
 Dokumentacja kubernetes ze składnią poszczególnych resources k8s w plikach YML
