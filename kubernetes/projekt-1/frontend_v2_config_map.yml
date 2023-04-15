@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-v2-cm
+data:
+  index.file: "Frontend v2"
+  v2.file: "v2/index.html Frontend v2"

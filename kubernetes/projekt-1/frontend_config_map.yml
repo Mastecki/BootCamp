@@ -4,3 +4,4 @@ metadata:
   name: frontend-cm
 data:
   test.file: "Testowy plik z frontendu"
+  index.file: "Plik index.html z frontendu V1"
