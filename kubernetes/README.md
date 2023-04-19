@@ -233,6 +233,43 @@ Uruchomienie tunelu
 minikube tunnel
 ```
 
+# Uruchomienie metryk w minikube
+
+```bash
+minikube addons enable metrics-server
+```
+
+# Autoskalowanie
+
+```bash
+kubectl autoscale deployment frontend --min=1 --max=3 --cpu-percent=50
+```
+
+Weryfikacja
+```bash
+# n - number of requests
+# c - concurrency
+ab -n 1000000 -c 100 http://<ADRES>
+#
+kubectl get hpa,deployment
+```
+
+# Komendy security
+
+Zmiana ustawień na klastrze
+```bash
+kubectl label --dry-run=server --overwrite ns --all pod-security.kubernetes.io/enforce=privileged
+kubectl label --dry-run=server --overwrite ns --all pod-security.kubernetes.io/enforce=baseline
+kubectl label --dry-run=server --overwrite ns --all pod-security.kubernetes.io/enforce=restricted
+kubectl label --dry-run=server --overwrite ns <KONKRETNY NAMESPACE> pod-security.kubernetes.io/enforce=restricted
+kubectl label --dry-run=server --overwrite ns default pod-security.kubernetes.io/enforce=restricted
+```
+
+Zmiana ustawień w namespace (przykład)
+```bash
+kubectl label --dry-run=server --overwrite ns default pod-security.kubernetes.io/enforce=privileged
+```
+
 # Przydatne linki
 
 Dokumentacja kubernetes ze składnią poszczególnych resources k8s w plikach YML
@@ -240,3 +277,9 @@ https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/
 
 Narzędzie do podglądania zasobów w klastrze za pomocą terminala
 https://k9scli.io/
+
+Helm charts
+https://helm.sh/docs/intro/quickstart/
+
+POD security standards
+https://kubernetes.io/docs/concepts/security/pod-security-standards/
