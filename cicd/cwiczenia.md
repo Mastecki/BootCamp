@@ -58,7 +58,7 @@ W przypadku problemów z powyższą komendą lub z pluginem vagrant-share zdefin
 `ngrok http 8081`  
 ngrok wyświetli publiczny adres URL działającego na localhost:8081 Jenkinsa  
 
-Stwórz nowe repozytorium i utwórz branch github-integration
+Stwórz nowe repozytorium, i wrzuć do niego folder z appką Javy java-app/, następnie utwórz branch github-integration
 
 W Github przejdź do Settings (Settings danego repozytorium, nie profilu)> Webhooks > Add webhook i w polu Payload URL podaj adres wygenerowany przez komendę vagrant/ngrok i doklejając na końcu „/github-webhook/”. Np.: https://8fe3-46-204-72-20.eu.ngrok.io/github-webhook/  
 Następnie kliknij Add webhook. Do poprawnego zadziałania webhooka repozytorium musi być publiczne (rekomendowane na potrzeby wasztatów)  
@@ -75,7 +75,7 @@ Dalej w Manage Jenkins > Global Tool Configuration w sekcji Maven dodaj instalac
 Utwórz Freestyle project.  
 W Source Code Management > Git podaj adres własnej kopii repo  
 Branch: */github-integration  
-Additional Behaviours -> Polling ignores commits in certain paths -> Included Regions: java-app/.*
+Additional Behaviours -> Polling ignores commits in certain paths -> Included Regions: `java-app/.*`
 
 Build triggers: GitHub hook trigger for GITScm polling  
 Dodaj następujące zadania budowania (w sekcji Build):  
