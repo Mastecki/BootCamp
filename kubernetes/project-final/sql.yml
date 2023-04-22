@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql
+spec:
+  selector:
+    matchLabels:
+      app: sql
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sql
+    spec:
+      containers:
+      - name: sql
+        image: postgres
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: sql-cm
+                key: postgres.db
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: postgres.user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sql-secret
+                key: postgres.password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql
+spec:
+  selector:
+    app: sql
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sql
+  namespace: default
+automountServiceAccountToken: true

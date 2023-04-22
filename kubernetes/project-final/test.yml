@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    version: v1
+  name: simple-pod
+spec:
+  containers:
+  - name: hi
+    image: postgres
+    command:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    env:
+    - name: POSTGRES_DB
+      valueFrom:
+        configMapKeyRef:
+          name: sql-cm
+          key: postgres.db
+    - name: POSTGRES_USER
+      valueFrom:
+        secretKeyRef:
+          name: sql-secret
+          key: postgres.user
+    - name: PGPASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: sql-secret
+          key: postgres.password
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    version: v1
+  name: volume-test
+spec:
+  containers:
+  - name: hi
+    image: postgres
+    command:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+    - mountPath: /backup
+      name: sql-backup
+  restartPolicy: OnFailure
+  volumes:
+    - name: sql-backup
+      persistentVolumeClaim:
+        claimName: mypvc

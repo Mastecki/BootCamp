@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sql-backup
+spec:
+  schedule: "32 10 * * *"
+  timeZone: Europe/Warsaw
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: sql-backup
+            image: postgres
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: sql-cm
+                  key: postgres.db
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: postgres.user
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: sql-secret
+                  key: postgres.password
+            command:
+            - /usr/bin/pg_dump
+            - -U
+            - $(POSTGRES_USER)
+            - -h 
+            - sql 
+            - -d 
+            - $(POSTGRES_DB)
+            - -f
+            - /backup/backup-$(date +%s).sql
+            volumeMounts:
+            - mountPath: /backup
+              name: sql-backup
+          restartPolicy: OnFailure
+          volumes:
+            - name: sql-backup
+              persistentVolumeClaim:
+                claimName: mypvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

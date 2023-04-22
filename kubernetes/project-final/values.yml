@@ -29,9 +29,9 @@ ui:
 connectInject:
  enabled: true
 # Configures ingress gateway
-ingressGateways:
-  enabled: true
-  gateways:
-    - name: ingress-gateway
-      service:
-        type: LoadBalancer
+# ingressGateways:
+#   enabled: true
+#   gateways:
+#     - name: ingress-gateway
+#       service:
+#         type: LoadBalancer
