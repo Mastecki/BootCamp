@@ -12,3 +12,4 @@
 | 04.03.2023 | AWS Cloud | Maciej Małek |[pdf](./prezentacje/DOR7-AWS-1.pdf)|| 
 | 04.03.2023 | Automatyzacja z wykorzystaniem Ansible | Marcin Słownikowski |[pdf](./prezentacje/DOR7-Ansible.pdf)|[hands-on](./ansible/Hands-on.md)|[hands-on rozwiązanie](./ansible/handson-rozwiązanie/)<br>[hands-on pliki z zajęć](./ansible/handson-zajęcia/)<br> 
 | 18.03.2023 | IaC - Terraform | Maciej Małek |[pdf](./prezentacje/DOR7-Iac-Terraform.pdf)|| 
+| 25.03 - 22.04.2023 | Kubernetes - one, to rule them all | Michał Wójtowicz |[pdf](./kubernetes/slajdy/part1.pdf)|| 
