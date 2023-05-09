@@ -75,7 +75,7 @@ Dalej w Manage Jenkins > Global Tool Configuration w sekcji Maven dodaj instalac
 Utwórz Freestyle project.  
 W Source Code Management > Git podaj adres własnej kopii repo  
 Branch: */github-integration  
-Additional Behaviours -> Polling ignores commits in certain paths -> Included Regions: `java-app/.*`
+Additional Behaviours -> Polling ignores commits in certain paths -> Included Regions: `java-app/.*` (cała ścieżka do katalogu z apką javy)
 
 Build triggers: GitHub hook trigger for GITScm polling  
 Dodaj następujące zadania budowania (w sekcji Build):  
@@ -85,10 +85,12 @@ Dodaj następujące zadania budowania (w sekcji Build):
     - Advanced -> POM -> wskaż całą ścieżkę do pliku pom e.g. java-app/pom.xml
 - Execute shell
     - Command: java -jar java-app/target/my-app-1.0-SNAPSHOT.jar
+    
 Dodaj Post-build Actions:  
 - Publish JUnit test result report: **/surefire-reports/TEST-*.xml
 - Archive the artifacts: java-app/target/*.jar
-Wykonaj zmianę na branch’u github-integration. Kilka sekund później powinien zostać uruchomiony automatycznie nowy build, który zbuduje, puści testy, uruchomi aplikację i opublikuje artefakty.  
+
+Wykonaj jakąkolwiek zmianę w kodzie na branch’u github-integration. Kilka sekund później powinien zostać uruchomiony automatycznie nowy build, który zbuduje, puści testy, uruchomi aplikację i opublikuje artefakty.  
 
 ## 03 - Dodawanie node'a
 Cel: chcemy, aby joby nie były puszczane na wbudowanym, domyślnym nodzie, tylko na dedykowanym, przez nas skonfigurowanym nodzie
@@ -115,7 +117,7 @@ Remote root repository: /var/lib/jenkins
 Labels: node  
 Usage: Only build jobs with label expressions matching this node  
 Launch method: Launch agent via SSH  
-Host: 10.0.0.20  
+Host: 10.0.0.20 (dostosuj IP do tego w swoim Vagrantfile)
 
 W sekcji credentials kliknij Add > Jenkins (credential provider) > SSH Username with private key, podaj nazwę użytkownika (jenkins) oraz utworzony poprzednio klucz prywatny.  
 Host key verification strategy: Manually trusted key verification strategy  
