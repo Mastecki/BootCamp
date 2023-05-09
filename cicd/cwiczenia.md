@@ -119,7 +119,7 @@ Usage: Only build jobs with label expressions matching this node
 Launch method: Launch agent via SSH  
 Host: 10.0.0.20 (dostosuj IP do tego w swoim Vagrantfile)
 
-W sekcji credentials kliknij Add > Jenkins (credential provider) > SSH Username with private key, podaj nazwę użytkownika (jenkins) oraz utworzony poprzednio klucz prywatny.  
+W sekcji credentials kliknij Add > Jenkins (credential provider) > SSH Username with private key, podaj nazwę użytkownika (jenkins) oraz utworzony poprzednio klucz prywatny (całość klucza z nagłówkami wyrzuconą za pomocą komendy wykonanej powyżej `cat ~/.ssh/id_rsa`)  
 Host key verification strategy: Manually trusted key verification strategy  
 Zaznacz checkbox: Require manual verification of initial connection  
 
