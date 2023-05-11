@@ -131,8 +131,11 @@ Przejdź do ostatniego projektu i wymuś uruchomienie tylko na nowym węźle pod
 Uruchom budowanie i sprawdź logi, czy faktycznie wykonał się na skonfigurowanym nodzie.
 
 ## 04 - Pipeline-as-a-code przykład
-Cel: Utworzenie pipeline'u w wersji pipeline-as-a-code, Jenkinsfile  
+Cel: Utworzenie pipeline'u w wersji pipeline-as-a-code, Jenkinsfile 
+https://www.jenkins.io/doc/book/pipeline/getting-started/
 https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
+${YOUR_JENKINS_URL}/pipeline-syntax
+${YOUR_JENKINS_URL}/directive-generator
 
 W Twoim repozytorium utwórz branch: pipeline-as-a-code
 
