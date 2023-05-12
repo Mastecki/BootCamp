@@ -144,7 +144,7 @@ Utwórz projekt typu Pipeline
 
 Build triggers: GitHub hook trigger for GITScm polling
 
-Pipeline script from SCM -> Script path Jenkinsfile-pipeline-2 lub Jenkinsfile-pipeline  
+Pipeline script from SCM -> Script path Jenkinsfile-pipeline (możesz go porównać i spróbować również Jenkinsfile-pipeline-2)  
 Plik zawiera te same kroki, które robiliśmy w ćwiczeniu 02 tylko w postaci Jenkinsfile
 
 ## 05 - Pipeline-as-a-code Pierwszy projekt
