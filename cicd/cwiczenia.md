@@ -136,6 +136,7 @@ https://www.jenkins.io/doc/book/pipeline/getting-started/
 https://www.jenkins.io/doc/book/pipeline/jenkinsfile/  
 ${YOUR_JENKINS_URL}/pipeline-syntax  
 ${YOUR_JENKINS_URL}/directive-generator  
+${YOUR_JENKINS_URL}/pipeline-syntax/globals  
 
 W Twoim repozytorium utwórz branch: pipeline-as-a-code
 
