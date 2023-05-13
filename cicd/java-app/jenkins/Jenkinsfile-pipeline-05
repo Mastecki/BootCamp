@@ -1,0 +1,47 @@
+pipeline {
+  agent {
+     node { 
+        label 'node01'
+     } 
+  }
+  options { 
+    timestamps ()
+    skipDefaultCheckout(true)
+  }
+  tools {
+    maven 'maven-apache-3.8.4'
+  }
+  stages {
+    stage('Build') {
+      steps {
+        cleanWs()
+        checkout scm
+        sh '''
+          date
+          FILE=$(date +"%S-%M-%H-%m-%d-%y")
+          touch $FILE.txt
+        '''
+      }
+      post {
+        success {
+            step(followSymlinks: false, $class: 'ArtifactArchiver', artifacts: '*.txt')
+        }
+      }
+    }
+    stage('Validation') {
+      steps {
+        input 'Is it working properly?'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'node -version'
+      }
+      post {
+        failure {
+            sh 'echo "error!!"'
+        }
+      }
+    }
+  }
+}

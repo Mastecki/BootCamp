@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+        docker {
+            image 'python'
+            args '-v /root/.m2:/root/.m2' //caching
+            label 'node01'
+        }
+    }
+    environment { 
+        HOME = "${WORKSPACE}/python-app"
+    }
+    stages {
+        stage('Run') {
+            steps {
+                dir('python-app/') {
+                    sh 'pip install -r requirements.txt'
+                    sh 'python3 -m flask run --host=0.0.0.0 &'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                retry(5) {
+                    //sleep time: 1, unit: 'SECONDS'
+                    sh 'wget -O- $(hostname):5000'
+                }
+            }
+        }
+    }
+}
