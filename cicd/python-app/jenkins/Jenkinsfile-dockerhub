@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+        node { 
+            label 'node01'
+        } 
+    }
+    environment {
+        REGISTRY_NAME = "<your_registry>"
+		DOCKERHUB_CREDENTIALS='<your_credentials_id>'
+	}
+    stages {
+        stage('Build and push') {
+            steps {
+                dir('python-app') {
+                    script {
+                        dockerImage = docker.build REGISTRY_NAME + ":$BUILD_NUMBER"
+                        docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                            dockerImage.push()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        cleanup {
+            cleanWs() // lub git clean -fdx
+        }
+    }
+}

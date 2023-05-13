@@ -169,6 +169,7 @@ Zainstaluj 2 pluginy w Jenkinsie: Docker plugin i Docker Pipeline.
 Zrestartuj maszyny node i jenkinsa
 
 Uruchomienie w kontenerze  
+Wykonaj pipeline który uruchomi kontener z mavenem na maszynie node.  
 Na podstawie poprzednich ćwiczeń stwórz pipeline dla aplikacji Java, który:
 - Uruchomi pipeline w kontenerze (przykład: image 'maven:3.6.1-alpine')
 - Będzie zawierał stage: Build, Test, Deliver, Run, gdzie odpowiednio zbuduje paczkę, uruchomi testy i opublikuje ich rezultat, opublikuje artefakt i uruchomi aplikację
