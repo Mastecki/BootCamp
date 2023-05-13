@@ -132,16 +132,19 @@ Uruchom budowanie i sprawdź logi, czy faktycznie wykonał się na skonfigurowan
 
 ## 04 - Pipeline-as-a-code przykład
 Cel: Utworzenie pipeline'u w wersji pipeline-as-a-code, Jenkinsfile  
-https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
-
-W Twoim repozytorium utwórz branch: pipeline-as-a-code
+https://www.jenkins.io/doc/book/pipeline/getting-started/  
+https://www.jenkins.io/doc/book/pipeline/jenkinsfile/  
+${YOUR_JENKINS_URL}/pipeline-syntax  
+${YOUR_JENKINS_URL}/directive-generator  
+${YOUR_JENKINS_URL}/pipeline-syntax/globals  
 
 Utwórz projekt typu Pipeline
 
 Build triggers: GitHub hook trigger for GITScm polling
 
-Pipeline script from SCM -> Script path Jenkinsfile-pipeline-2 lub Jenkinsfile-pipeline  
-Plik zawiera te same kroki, które robiliśmy w ćwiczeniu 02 tylko w postaci Jenkinsfile
+Pipeline script from SCM -> wstaw swoje repozytorium -> Script path -> java-app/jenkins/Jenkinsfile-pipeline (możesz go porównać i spróbować również Jenkinsfile-pipeline-2)  
+W zależności od tego czy pracujesz na forku repozytorium z materiałami lub własnym, ścieżki mogą być inne  
+Plik zawiera te same kroki, które robiliśmy w ćwiczeniu 02 tylko w postaci Jenkinsfile. Porównaj kroki
 
 ## 05 - Pipeline-as-a-code Pierwszy projekt
 Cel: Utworzenie Pipeline'u, korzystając z deklaratywnego kodu, bazując na ćwiczeniu 01 z dodatkowymi modyfikacjami (blokowanie kolejnego kroku, reakcje na zdarzenia)
