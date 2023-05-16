@@ -13,3 +13,4 @@
 | 04.03.2023 | Automatyzacja z wykorzystaniem Ansible | Marcin Słownikowski |[pdf](./prezentacje/DOR7-Ansible.pdf)|[hands-on](./ansible/Hands-on.md)|[hands-on rozwiązanie](./ansible/handson-rozwiązanie/)<br>[hands-on pliki z zajęć](./ansible/handson-zajęcia/)<br> 
 | 18.03.2023 | IaC - Terraform | Maciej Małek |[pdf](./prezentacje/DOR7-Iac-Terraform.pdf)|| 
 | 25.03 - 22.04.2023 | Kubernetes - one, to rule them all | Michał Wójtowicz |[pdf](./kubernetes/slajdy/part1.pdf)|| 
+| 20.05.2024 | Monitoring i alerting w środowiskach rozproszonych | Paweł Jurusz | [pdf](./prezentacje/DOR7-Monitoring-i-alerting.pdf) | | |
