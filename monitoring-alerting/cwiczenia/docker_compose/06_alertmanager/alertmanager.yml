@@ -1,0 +1,19 @@
+global:
+  smtp_smarthost: 'mailhog:1025'
+  smtp_from: 'alertmanager@example.org'
+  smtp_require_tls: false
+
+route:
+  group_by: ['service']
+  group_wait: 30s
+  group_interval: 15s
+  receiver: 'webhook'
+
+receivers:
+  - name: 'webhook'
+    webhook_configs:
+      - url: 'https://14e80351-6d10-4815-9e3d-b3cd287ffaed.requestcatcher.com/test'
+  - name: 'team-X-mail'
+    email_configs:
+      - to: 'foo@example.org'
+

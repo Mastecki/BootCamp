@@ -1,0 +1,6 @@
+groups:
+ - name: my_rules
+   rules:
+     - record: instance_path:node_cpu_seconds_total_by_mode_per_node_cpu_seconds_total:sum
+       expr: (sum by(mode) (node_cpu_seconds_total) / scalar(sum(node_cpu_seconds_total))) * 100
+
