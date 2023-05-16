@@ -4,8 +4,8 @@ Na podstawie apki python'a stwórz kompletny pipeline CI/CD, w którym:
 - uruchomione zostaną unit testy aplikacji
 - wynik testów będzie dostępny w Jenkinsie
 - Następnie, po udanych unit testach:
-- zbuduje kontener aplikacji z zainstalowanymi zależnościami
-- artefaktem będzie kontener opublikowany na DockerHub
+- zbuduje obraz aplikacji z zainstalowanymi zależnościami
+- artefaktem będzie obraz opublikowany na DockerHub
 - Następnie zasymuluje wdrożenie - uruchomi kontener w środowisku DEV, zatrzyma pipeline do czasu weryfikacji, że aplikacja działa, a po potwierdzeniu wdroży aplikację na środowisko PRODUCTION. 
 (Do zasymulowania uruchomienia kontenera na środowiskach można wykorzystać np. różne porty)
 - na koniec wyczyści workspace
