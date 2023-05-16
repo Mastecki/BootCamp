@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  prometheus:
+    image: prom/prometheus:v2.40.7
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "prometheus_training_data:/prometheus"
+      - "./myrules.yml:/etc/prometheus/myrules.yml"
+      - "./alerts.yml:/etc/prometheus/alerts.yml"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.external-url=http://localhost:9090"
+  node_exporter:
+    image: prom/node-exporter:v1.5.0
+    ports:
+      - "9100:9100"
+  app:
+    image: paweljpl/monitoring-test-app:0.0.1
+    ports:
+      - "8080:8080"
+      - "9095:9095"
+  alertmanager:
+    image: prom/alertmanager:v0.24.0
+    ports:
+      - "9093:9093"
+    volumes:
+      - "./alertmanager.yml:/etc/alertmanager/alertmanager.yml"
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+      - "--web.external-url=http://localhost:9093"
+  mailhog:
+    image: "mailhog/mailhog:v1.0.1"
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  prometheus_training_data:
