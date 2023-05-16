@@ -1,0 +1,61 @@
+pipeline {
+    agent none
+    environment { 
+        HOME = "${WORKSPACE}/python-app"
+        REGISTRY_NAME = "mastecki/project-cicd"
+		DOCKERHUB_CREDENTIALS='dockerhub'
+        }
+    stages {
+        stage('Testing') {
+            agent {
+                docker {
+                    image 'python:3.9-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                    label 'node01'
+                }
+            }
+            steps {
+                dir('python-app/') {
+                    sh 'pip install -r requirements.txt'
+                    sh '$HOME/.local/bin/pytest . --junit-xml=pytest_junit.xml'
+                }
+            }
+            post {
+                always {
+                    junit '**/*pytest_junit.xml'
+                }
+            }
+        }
+        stage('Build and push') {
+            agent {
+                node { 
+                    label 'node01'
+                }
+            }
+            steps {
+                dir('python-app/') {
+                    script {
+                        dockerImage = docker.build REGISTRY_NAME + ":$BUILD_NUMBER"
+                        docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
+                            dockerImage.push()
+                        }
+                    }
+                }
+            }
+        }
+    }
+/*
+    post {
+        always {
+            agent {
+                node { 
+                    label 'node01'
+                }
+            }
+            cleanup {
+                cleanWs()
+            }
+        }
+    }
+*/
+}
