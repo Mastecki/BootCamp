@@ -1,0 +1,19 @@
+groups:
+- name: JVM
+  rules:
+  - alert: JvmTooManyThreads
+    expr: sum by(instance) (jvm_threads_states) > 70
+    for: 3m
+    labels:
+      severity: low
+    annotations:
+      summary: "Too many JVM threads on instance {{ $labels.instance }}"
+      description: "An instance {{ $labels.instance }} JVM has too many thereads ({{ $value }})"
+
+- name: http
+  rules:
+  - alert: TooMany5xxResponses
+    expr: sum by (instance) (http_server_requests_total{http_status_code = "5xx"}) /  sum by (instance) (http_server_requests_total{http_status_code =~ "[2|5]xx"}) >= 0.3
+    for: 1m
+    annotations:
+      description: "Too many 5xx responses on instance {{ $labels.instance }}"
