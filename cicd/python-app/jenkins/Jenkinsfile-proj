@@ -1,0 +1,87 @@
+pipeline {
+    agent any
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('<your_credential>')
+        REGISTRY_NAME='<your_registry>'
+	}
+    stages {
+        stage('Testing') {
+            agent {
+                docker {
+                    image 'python:3.9-alpine'
+                    label 'node01'
+                }
+            }
+            environment { 
+                HOME = "${WORKSPACE}/python-app"
+            }
+            steps {
+                dir('python-app') {
+                    sh 'pip install -r requirements.txt'
+                    sh '$HOME/.local/bin/pytest . --junit-xml=pytest_junit.xml'
+                }
+            }
+            post {
+                always {
+                    junit '**/*pytest_junit.xml'
+                }
+            }
+        }
+        stage('Build image') {
+            agent {
+                label 'node01'
+            }
+            steps {
+                dir('python-app') {
+                    sh 'docker build -t $REGISTRY_NAME:$BUILD_NUMBER .'
+                }
+            }
+        }
+        stage('Push image') {
+            agent {
+                label 'node01'
+            }
+            steps {
+                dir('python-app') {
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker push $REGISTRY_NAME:$BUILD_NUMBER'
+                }
+            }
+        }
+        stage('Deployment to DEV') {
+            agent {
+                label 'node01'
+            }
+            steps {
+                dir('python-app') {
+                    sh 'docker rm -f dev-app'
+                    sh 'docker run --name dev-app -d -p 81:5000 $REGISTRY_NAME:$BUILD_NUMBER'
+                }
+            }
+            post {
+                always {
+                    input 'Is the app working correctly? Approve'
+                }
+            }
+        }
+        stage('Deployment to Prod') {
+            agent {
+                label 'node01'
+            }
+            steps {
+                dir('python-app') {
+                    sh 'docker rm -f prod-app'
+                    sh 'docker run --name prod-app -d -p 5002:5000 $REGISTRY_NAME:$BUILD_NUMBER'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+        failure {
+            emailext body: 'Failure', subject: 'Hello fail', to: 'your@email'
+        }
+    }
+}
