@@ -23,16 +23,16 @@ Zakres adresacji musi być z prywatnej puli adresowej.
 
 `Route Table` - tablica rutingu - czyli tablica mówiąca gdzie pakiety wychodzące z subnetu mają być skierowane.
 
-`Network ACL` - firewall do kontroli ruchu z i do subnetów. `Domyślna` konfiguracja - `wszystko odblokowane`. Typ - `stateless` - nie zachowuje stanu połączenia.
+`Network ACL` - firewall do kontroli ruchu **z i do subnetów (na poziomie VPC)**. `Domyślna` konfiguracja - `wszystko odblokowane`. Typ - `stateless` - nie zachowuje stanu połączenia.
 
-`Security group` - firewall do kontrolu ruchu wewnątrz subnetów, do i z zasobów (serwer EC2, baza danych RDS, itp.). `Domyślna` konfiguracja - `wszystko zablokowane`. Typ - `stateful` - zachowuje stan połączenia.
+`Security group` - firewall do kontrolu ruchu **na poziomie subnetów, do i z zasobów takich jak serwer EC2, baza danych RDS**. `Domyślna` konfiguracja - `wszystko zablokowane`. Typ - `stateful` - zachowuje stan połączenia.
 
 ## IAM - Identity and Access Management
 
 `IAM Users` - użytkownicy wewnątrz konta AWS, możliwość logowania się do konsoli webowej jak i dostęp przez AWS CLI/SDK przy pomocy wygenerowanej pary access key id/access key secret.
 Przypinamy `IAM Policies` aby nadać uprawnienia.
 
-`IAM Roles` - tożsamość dla zasobów, którym możemy nadawać uprawnienia. Wtedy proces działający na serwerze EC2 lub kontenerze bedzie miał uprawnienia do komunikacji z wybranym serwisem AWS przez jego API. Przypinamy `IAM Policies` aby nadać uprawnienia.
+`IAM Roles` - tożsamość dla zasobów, którym możemy nadawać uprawnienia. Wtedy proces działający na serwerze EC2 lub kontenerze bedzie miał uprawnienia do komunikacji z wybranym serwisem AWS przez jego API. Przyklad: chcemy aplikacja działająca na serwerze mogła tworzyć objekty w buckecie S3. Przypinamy `IAM Policies` aby nadać uprawnienia.
 
 `IAM Policies` - zestaw uprawnień (*Allow*) lub zakazów (*Deny*), które można dopiąć do IAM Role lub IAM User. Policies możemy tworzyć samodzielnie (*Customer managed*) lub możemy użyc przygotowanych i zarządzanych przez AWS (*AWS managed*). Tych drugich nie możemy modyfikować. Przykład AWS managed policy - *arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore*
 
