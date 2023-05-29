@@ -39,15 +39,18 @@ public class Main {
         throw new NoSuchElementException(table);
     }
 
-    priva
+    private static HttpHandler handler(Supplier<String> word) {
+        return t -> {
+            String response = "{\"word\":\"" + word.get() + "\"}";
+            byte[] bytes = response.getBytes(Charsets.UTF_8);
 
-        String response="{\"word\":\""+word.get()+"\"}";
-    byte[] bytes = response.getBytes(Charsets.UTF_8);
+            System.out.println(response);
+            t.getResponseHeaders().add("content-type", "application/json; charset=utf-8");
+            t.sendResponseHeaders(200, bytes.length);
 
-    System.out.println(response);t.getResponseHeaders().add("content-type","application/json; charset=utf-8");t.sendResponseHeaders(200,bytes.length);
-
-    try(OutputStream os = t.getResponseBody())
-    {
-        os.write(bytes);
+            try (OutputStream os = t.getResponseBody()) {
+                os.write(bytes);
+            }
+        };
     }
-};}}
+}
