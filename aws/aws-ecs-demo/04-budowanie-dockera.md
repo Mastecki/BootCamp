@@ -5,7 +5,7 @@ W poniższym kodzie musimy podstawic tą nazwę do zmiennej $REPONAME
 
 ```bash
 export AWS_DEFAULT_REGION=eu-west-1
-export AWS_PROFILE=infoshare
+export AWS_PROFILE=<nazwa waszego profilu AWS CLI do konta Infoshare>
 export REPONAME=<nazwa naszego ECR repository>
 
 ```
