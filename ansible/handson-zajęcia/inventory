@@ -1,2 +1,2 @@
-db ansible_host=10.0.0.11
-app ansible_host=10.0.0.12
+db ansible_host=192.168.56.11
+app ansible_host=192.168.56.12

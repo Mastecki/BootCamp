@@ -3,7 +3,7 @@
   hosts: all
   become: true
 
-  tasks: 
+  tasks:
     - name: install
       ansible.builtin.apt:
         update_cache: true
@@ -33,12 +33,12 @@
 
     - name: Update apt and install docker-ce
       apt:
-        name: 
+        name:
           - docker-ce
-          - docker-ce-cli 
-          - containerd.io 
-          - docker-buildx-plugin 
-          - docker-compose-plugin 
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
         state: latest
         update_cache: true
 
@@ -60,7 +60,7 @@
           POSTGRES_USER: db
           POSTGRES_PASSWORD: test
           POSTGRES_DB: mealie
-        ports: 
+        ports:
           - "5432:5432"
         restart_policy: always
 - name: app
@@ -79,6 +79,6 @@
           POSTGRES_DB: mealie
           POSTGRES_PORT: "5432"
           DB_ENGINE: postgres
-        ports: 
+        ports:
           - "8080:80"
         restart_policy: always

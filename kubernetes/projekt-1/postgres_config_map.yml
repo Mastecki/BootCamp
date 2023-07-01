@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: postgres-cm
-data:
-  postgres.db: "nazwa_bazy_danych"

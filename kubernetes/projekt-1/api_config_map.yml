@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: api-cm
-data:
-  index.file: "Plik z backendu"

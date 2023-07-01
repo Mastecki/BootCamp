@@ -18,7 +18,7 @@ module "vpc" {
   tags = {
     Terraform = "true"
     Owner = "ArturL"
-    Project = "DOR7"
+    Project = "Self"
   }
 }
 
